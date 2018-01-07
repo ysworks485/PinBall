@@ -50,16 +50,29 @@ public class FripperController : MonoBehaviour {
 
                 case TouchPhase.Ended:
                 case TouchPhase.Canceled:
-                    if (t.position.x < Screen.width / 2 && tag == "LeftFripperTag")
+                    //↓（改善後）指を離した時、どこで離してもフリッパーを戻す
+                    if (tag == "LeftFripperTag")
                     {
                         // 左タッチを離したら、左フリッパーを戻す
                         setAngle(this.defaultAngle);
                     }
-                    if (t.position.x >= Screen.width / 2 && tag == "RightFripperTag")
+                    if (tag == "RightFripperTag")
                     {
                         // 右タッチを離したら、右フリッパーを戻す
                         setAngle(this.defaultAngle);
                     }
+                    //↓（改善前）
+                    //if (t.position.x < Screen.width / 2 && tag == "LeftFripperTag")
+                    //{
+                    //    // 左タッチを離したら、左フリッパーを戻す
+                    //    setAngle(this.defaultAngle);
+                    //}
+                    //if (t.position.x >= Screen.width / 2 && tag == "RightFripperTag")
+                    //{
+                    //    // 右タッチを離したら、右フリッパーを戻す
+                    //    setAngle(this.defaultAngle);
+                    //}
+
                     break;
 
             }
