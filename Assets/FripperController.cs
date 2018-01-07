@@ -26,27 +26,43 @@ public class FripperController : MonoBehaviour {
         // 発展課題：画面タッチで左右のフリッパーを動かす
         ////////////////////////////////////////////////////////////////////////////
 
-        if (Input.touchCount > 0) {
-            Touch T = Input.GetTouch(0);
-            if (T.position.x < Screen.width / 2 && tag == "LeftFripperTag"){
-                // 画面左半分にタッチしたら、左フリッパー
-                print("Left");
-                setAngle(this.flickAngle);
-            }
+        foreach (Touch t in Input.touches) {
+            var id = t.fingerId;
 
-            if (T.position.x >= Screen.width / 2 && tag == "RightFripperTag")
-            {
-                // 画面右半分にタッチしたら、右フリッパー
-                print("Right");
-                setAngle(this.flickAngle);
-            }
+            switch(t.phase) {
+                case TouchPhase.Began:
+                    if (t.position.x < Screen.width / 2 && tag == "LeftFripperTag")
+                    {
+                        // 画面左半分にタッチしたら、左フリッパー
+                        setAngle(this.flickAngle);
+                    }
 
-            // 指を離した時
-            if (T.phase == TouchPhase.Ended)
-            {
-                setAngle(this.defaultAngle);
-            }
+                    if (t.position.x >= Screen.width / 2 && tag == "RightFripperTag")
+                    {
+                        // 画面右半分にタッチしたら、右フリッパー
+                        setAngle(this.flickAngle);
+                    }
+                    break;
 
+                case TouchPhase.Moved:
+                case TouchPhase.Stationary:
+                    break;
+
+                case TouchPhase.Ended:
+                case TouchPhase.Canceled:
+                    if (t.position.x < Screen.width / 2 && tag == "LeftFripperTag")
+                    {
+                        // 左タッチを離したら、左フリッパーを戻す
+                        setAngle(this.defaultAngle);
+                    }
+                    if (t.position.x >= Screen.width / 2 && tag == "RightFripperTag")
+                    {
+                        // 右タッチを離したら、右フリッパーを戻す
+                        setAngle(this.defaultAngle);
+                    }
+                    break;
+
+            }
         }
 
         // 左矢印キーを押した時、左フリッパーを動かす
